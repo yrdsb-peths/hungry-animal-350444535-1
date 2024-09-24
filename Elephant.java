@@ -8,14 +8,19 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Elephant extends Actor
 {
-    GreenfootImage[] idle = new GreenfootImage[8];
+    GreenfootImage[] idleRight = new GreenfootImage[8];
+    GreenfootImage[] idleLeft = new GreenfootImage[8];
+    int imageIndex = 0;
+    String facing = "right";
     public Elephant()
     {
-        for(int i = 0; i < idle.length; i++)
+        for(int i = 0; i < idleRight.length; i++)
         {
-            idle[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
+            idleRight[i] = new GreenfootImage("images/elephant_idle/idle" + i + ".png");
+            idleRight[i].scale(75,75);
         }
-        setImage(idle[0]);
+    
+        setImage(idleRight[0]);
     }
     /**
      * Act - do whatever the Elephant wants to do. This method is called whenever
@@ -26,14 +31,16 @@ public class Elephant extends Actor
         // Add your action code here.
         if(Greenfoot.isKeyDown("left"))
         {
-            move(-1);
+            move(-5);
         }
         if(Greenfoot.isKeyDown("right"))
         {
-            move(1);
+            move(5);
         }
         
         eat();
+        animateElephant();
+        
     }
     public void eat()
     {
@@ -44,5 +51,10 @@ public class Elephant extends Actor
             world.createApple();
             world.increaseScore();
         }
+    }
+    public void animateElephant()
+    {
+        setImage(idleRight[imageIndex]);
+        imageIndex = (imageIndex + 1) % idleRight.length;
     }
 }
